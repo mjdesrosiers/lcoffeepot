@@ -6,6 +6,7 @@ import sched
 import urllib.request
 import threading
 import _mysql
+import os
 
 def retrieve_coffee_data(filename, t_naught=None):
 	print('\t[rcd] [getting coffee data]')
@@ -13,7 +14,7 @@ def retrieve_coffee_data(filename, t_naught=None):
 		t_naught = int(time.time())
 	try:		
 		tnow = int(time.time());		
-		resp = urllib.request.urlopen('http://192.168.4.1/' + str(tnow), timeout=2);
+		resp = urllib.request.urlopen('http://192.168.4.1/' + str(tnow), timeout=5);
 		html = resp.read().decode('utf-8');
 
 		html = html.split('\n')
@@ -46,13 +47,17 @@ def retrieve_coffee_data(filename, t_naught=None):
 
 def write_to_db(time, weight):
 	print("writing to db")
-	uname = os.getenv('SQLUNAME')
-	pwd = os.getenv('SQLPWD')
-	host = os.getenv('SQLHOST')
-	port = os.getenv('SQLPORT')
+	uname = str(os.getenv('SQLUNAME'))
+	pwd = str(os.getenv('SQLPWD'))
+	host = str(os.getenv('SQLHOST'))
+	port = int(os.getenv('SQLPORT'))
+	print(uname)
+	print(pwd)
+	print(host)
+	print(port)
 	db = _mysql.connect(
 	    user=uname, passwd=pwd,
-	    host=port, port=port,
+	    host=host, port=port,
 	    db=uname,
 	)	
 	LN1 = "INSERT INTO Weights (Timestamp, Weight)"

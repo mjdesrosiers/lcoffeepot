@@ -28,10 +28,6 @@ def send_coffee_data_jsonsql():
 	pwd = str(os.getenv('SQLPWD'))
 	host = str(os.getenv('SQLHOST'))
 	port = int(os.getenv('SQLPORT'))
-	print(uname)
-	print(pwd)
-	print(host)
-	print(port)
 	db = _mysql.connect(
 	    user=uname, passwd=pwd,
 	    host=host, port=port,
